@@ -68,6 +68,13 @@ class Boleta(models.Model):
         - El consumo inicial debe ser anterior al consumo final.
         """
         if self.consumo_inicio and self.consumo_fin:
+            if (self.consumo_inicio.usuario_id != self.usuario_id or
+                    self.consumo_fin.usuario_id != self.usuario_id):
+                raise ValidationError("Las lecturas deben pertenecer al usuario de la boleta.")
+            if self.consumo_inicio.medidor_id != self.consumo_fin.medidor_id:
+                raise ValidationError("Las lecturas deben pertenecer al mismo medidor.")
+            if self.consumo_fin.cantidad_consumida < self.consumo_inicio.cantidad_consumida:
+                raise ValidationError("La lectura final no puede ser menor que la inicial.")
             if self.consumo_inicio == self.consumo_fin:
                 raise ValidationError("El consumo inicial no puede ser igual al consumo final.")
             if self.consumo_inicio.fecha_consumo >= self.consumo_fin.fecha_consumo:
@@ -79,6 +86,8 @@ class Boleta(models.Model):
         """
         if not self.consumo_inicio or not self.consumo_fin:
             raise ValueError("Debe seleccionar consumos válidos para generar la boleta.")
+
+        self.clean()
 
         consumo_total = Decimal(self.consumo_fin.cantidad_consumida) - Decimal(self.consumo_inicio.cantidad_consumida)
         tarifa_base = Decimal(self.consumo_fin.tarifa_aplicada.valor)

@@ -61,6 +61,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'registro_cuentas.Cuenta'
 
 LOGIN_REDIRECT_URL = '/roles/redireccion/'
+LOGIN_URL = 'login:login'
 LOGOUT_REDIRECT_URL = '/login/'  # Opcional: página a la que se redirige tras cerrar sesión
 
 STATIC_URL = '/static/'
