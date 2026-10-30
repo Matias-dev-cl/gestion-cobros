@@ -1,0 +1,69 @@
+{% extends "consumos/base_consumos.html" %}
+
+{% block title %}Eliminar Consumo{% endblock %}
+
+{% block content %}
+<div class="min-h-[60vh] flex items-center justify-center">
+
+    <div class="max-w-md w-full px-4">
+
+        <!-- Tarjeta -->
+        <div class="card bg-base-100 shadow-xl border border-base-300 text-base-content">
+            <div class="card-body items-center text-center p-8">
+
+                <!-- Icono -->
+                <div class="w-20 h-20 rounded-full bg-error/10 flex items-center justify-center mb-5 text-error animate-pulse">
+                    <i class="bi bi-exclamation-triangle-fill text-4xl"></i>
+                </div>
+
+                <!-- Título -->
+                <h2 class="text-2xl font-bold mb-2">
+                    ¿Eliminar registro de consumo?
+                </h2>
+
+                <!-- Descripción -->
+                <p class="text-base-content/70 leading-relaxed">
+                    Estás a punto de eliminar el consumo registrado el día
+                    <br>
+                    <strong class="text-base-content text-lg">
+                        {{ consumo.fecha_consumo|date:"d/m/Y" }}
+                    </strong>
+                    por un total de
+                    <strong class="text-base-content text-lg">
+                        {{ consumo.cantidad_consumida }} m³
+                    </strong>.
+                </p>
+
+                <p class="text-error text-sm font-semibold mt-3">
+                    Esta acción no se puede deshacer.
+                </p>
+
+                <!-- Acciones -->
+                <form method="post" class="mt-8 w-full flex flex-col-reverse sm:flex-row gap-3">
+                    {% csrf_token %}
+
+                    <a href="{% url 'consumos:historial_consumos' consumo.usuario.id %}"
+                       class="btn btn-ghost w-full sm:w-1/2 hover:bg-base-200">
+                        <i class="bi bi-arrow-left"></i> Cancelar
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-error text-white w-full sm:w-1/2 shadow-md shadow-error/30">
+                        <i class="bi bi-trash3-fill"></i> Sí, eliminar
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- Volver -->
+        <div class="text-center mt-4">
+            <a href="{% url 'consumos:lista_usuarios_consumos' %}"
+               class="text-sm text-base-content/60 hover:underline">
+                Volver al listado de consumos
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

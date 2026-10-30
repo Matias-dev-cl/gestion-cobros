@@ -1,0 +1,368 @@
+{% extends "roles/base_roles.html" %}
+
+{% block title %}Panel de Administración General{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Animación de entrada suave */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-entry {
+        opacity: 0;
+        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    /* Retrasos para efecto cascada */
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-10 max-w-7xl">
+
+    <!-- Título principal -->
+    <div class="text-center mb-10 animate-entry">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-primary mb-3">Panel de Administración General</h2>
+        <p class="text-lg text-base-content/70 max-w-3xl mx-auto">
+            ¡Bienvenido al sistema de gestión del <strong>Comité APR Nahueltoro</strong>!<br>
+            Aquí podrás administrar usuarios, tarifas, medidores y supervisar el consumo.
+        </p>
+    </div>
+
+    <!-- Aviso informativo -->
+    <div class="alert alert-info shadow-md mb-10 animate-entry delay-100 flex items-start bg-info/10 border border-info/20 text-base-content">
+        <i class="bi bi-info-circle-fill text-2xl text-info shrink-0"></i>
+        <div class="flex-1">
+            <h3 class="font-bold">Panel Centralizado</h3>
+            <div class="text-sm opacity-90">
+                Este panel te permite acceder a todas las funcionalidades administrativas. Consulta los gráficos y utiliza las opciones de gestión abajo.
+            </div>
+        </div>
+        <button class="btn btn-sm btn-circle btn-ghost text-base-content/50 hover:bg-base-content/10" onclick="this.parentElement.style.display='none';">✕</button>
+    </div>
+
+    <!-- Tarjetas de resumen -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-10 animate-entry delay-200">
+        
+        <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-all">
+            <div class="card-body p-4 text-center">
+                <h5 class="text-xs font-bold uppercase text-base-content/60 tracking-wider">Usuarios Totales</h5>
+                <p class="text-3xl font-extrabold text-primary">{{ total_usuarios }}</p>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-all">
+            <div class="card-body p-4 text-center">
+                <h5 class="text-xs font-bold uppercase text-base-content/60 tracking-wider">Medidores Activos</h5>
+                <p class="text-3xl font-extrabold text-success">{{ medidores_activos }}</p>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-all">
+            <div class="card-body p-4 text-center">
+                <h5 class="text-xs font-bold uppercase text-base-content/60 tracking-wider">Medidores Inactivos</h5>
+                <p class="text-3xl font-extrabold text-error">{{ medidores_inactivos|default:"0" }}</p>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-all">
+            <div class="card-body p-4 text-center">
+                <h5 class="text-xs font-bold uppercase text-base-content/60 tracking-wider">Consumo Histórico</h5>
+                <p class="text-2xl font-extrabold text-warning">
+                    {{ total_consumo_mes|floatformat:3 }} 
+                    <span class="text-sm text-base-content/60">m³</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-all">
+            <div class="card-body p-4 text-center">
+                <h5 class="text-xs font-bold uppercase text-base-content/60 tracking-wider">Tarifa Actual</h5>
+                <p class="text-3xl font-extrabold text-info">${{ tarifa_actual }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 animate-entry delay-300">
+        
+        <div class="card bg-base-100 shadow-xl border border-base-300">
+            <div class="card-body">
+                <h3 class="card-title text-base-content justify-center mb-4">Evolución de Tarifas</h3>
+                <div class="relative h-64 w-full">
+                    <canvas id="graficoTarifas"></canvas>
+                </div>
+                <p class="text-center text-xs text-base-content/60 mt-2">Historial de precios en el tiempo.</p>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-xl border border-base-300">
+            <div class="card-body">
+                <h3 class="card-title text-base-content justify-center mb-4">Consumo Mensual</h3>
+                <div class="relative h-64 w-full">
+                    <canvas id="graficoConsumo"></canvas>
+                </div>
+                <p class="text-center text-xs text-base-content/60 mt-2">Registro total de m³ por mes.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de opciones de gestión -->
+    <div class="divider text-primary font-bold text-xl mb-8 animate-entry delay-400">Opciones de Gestión</div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-entry delay-400">
+        
+        <div class="card bg-base-100 shadow-md border border-base-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div class="card-body items-center text-center">
+                <div class="p-3 bg-primary/10 rounded-full text-primary mb-3">
+                    <i class="bi bi-file-earmark-spreadsheet text-3xl"></i>
+                </div>
+                <h3 class="card-title text-primary text-lg">Gestión de Cuentas</h3>
+                <p class="text-sm text-base-content/70 mb-4">Accede a la lista de cuentas registradas.</p>
+                <a href="{% url 'registro_cuentas:lista_cuentas' %}" class="btn btn-primary btn-sm w-full text-white">Ver Cuentas</a>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-md border border-base-200 hover:shadow-xl hover:-translate-y-1 transition-all duración-300">
+            <div class="card-body items-center text-center">
+                <div class="p-3 bg-success/10 rounded-full text-success mb-3">
+                    <i class="bi bi-people text-3xl"></i>
+                </div>
+                <h3 class="card-title text-success text-lg">Gestión de Usuarios</h3>
+                <p class="text-sm text-base-content/70 mb-4">Administra los datos de los usuarios.</p>
+                <a href="{% url 'usuarios:lista_usuarios' %}" class="btn btn-success btn-sm w-full text-white">Ver Usuarios</a>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-md border border-base-200 hover:shadow-xl hover:-translate-y-1 transition-all duración-300">
+            <div class="card-body items-center text-center">
+                <div class="p-3 bg-info/10 rounded-full text-info mb-3">
+                    <i class="bi bi-speedometer text-3xl"></i>
+                </div>
+                <h3 class="card-title text-info text-lg">Gestión de Medidores</h3>
+                <p class="text-sm text-base-content/70 mb-4">Asigna y gestiona los medidores.</p>
+                <a href="{% url 'medidores:buscar_usuario_para_medidor' %}" class="btn btn-info btn-sm w-full text-white">Asignar Medidor</a>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-md border border-base-200 hover:shadow-xl hover:-translate-y-1 transition-all duración-300">
+            <div class="card-body items-center text-center">
+                <div class="p-3 bg-warning/10 rounded-full text-warning mb-3">
+                    <i class="bi bi-tags text-3xl"></i>
+                </div>
+                <h3 class="card-title text-warning text-lg">Gestión de Tarifas</h3>
+                <p class="text-sm text-base-content/70 mb-4">Configura y administra las tarifas.</p>
+                <a href="{% url 'tarifas:historial_tarifas' %}" class="btn btn-warning btn-sm w-full text-white">Ver Tarifas</a>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-md border border-base-200 hover:shadow-xl hover:-translate-y-1 transition-all duración-300">
+            <div class="card-body items-center text-center">
+                <div class="p-3 bg-error/10 rounded-full text-error mb-3">
+                    <i class="bi bi-clipboard-data text-3xl"></i>
+                </div>
+                <h3 class="card-title text-error text-lg">Gestión de Consumos</h3>
+                <p class="text-sm text-base-content/70 mb-4">Registra y consulta los consumos.</p>
+                <a href="{% url 'consumos:lista_usuarios' %}" class="btn btn-error btn-sm w-full text-white">Registrar Consumo</a>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-md border border-base-200 hover:shadow-xl hover:-translate-y-1 transition-all duración-300">
+            <div class="card-body items-center text-center">
+                <div class="p-3 bg-neutral/10 rounded-full text-neutral mb-3">
+                    <i class="bi bi-receipt text-3xl"></i>
+                </div>
+                <h3 class="card-title text-neutral text-lg">Gestión de Boletas</h3>
+                <p class="text-sm text-base-content/70 mb-4">Historial, búsqueda y generación.</p>
+                
+                <div class="grid grid-cols-1 gap-2 w-full">
+                    <a href="{% url 'boletas:historial_recientes' %}" class="btn btn-neutral btn-sm w-full">Historial</a>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="{% url 'boletas:buscar_usuario' %}" class="btn btn-outline btn-neutral btn-sm">Buscar</a>
+                        <a href="{% url 'boletas:seleccionar_usuario' %}" class="btn btn-outline btn-neutral btn-sm">Generar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const graficoTarifasData = {{ grafico_tarifas_data|safe }};
+    const graficoConsumoData = {{ grafico_consumo_data|safe }};
+
+    // Forzamos colores de dataset aquí por si el backend no los define
+    if (graficoTarifasData.datasets && graficoTarifasData.datasets.length > 0) {
+        graficoTarifasData.datasets[0].borderColor = "#0077cc";
+        graficoTarifasData.datasets[0].backgroundColor = "rgba(0, 119, 204, 0.12)";
+        graficoTarifasData.datasets[0].tension = 0.3;
+    }
+
+    if (graficoConsumoData.datasets && graficoConsumoData.datasets.length > 0) {
+        graficoConsumoData.datasets[0].backgroundColor = "#0ea5e9";
+        graficoConsumoData.datasets[0].borderColor = "#0284c7";
+    }
+
+    // Detectar si el tema actual es oscuro o claro
+    function isDarkTheme() {
+        const theme = document.documentElement.getAttribute('data-theme') || 'light';
+        const darkThemes = ['dark', 'business', 'halloween', 'forest', 'black', 'luxury', 'dracula', 'night'];
+        return darkThemes.includes(theme);
+    }
+
+    function getChartColors() {
+        const dark = isDarkTheme();
+
+        return {
+            axisTextColor: dark ? '#e5e7eb' : '#1f2937',   // texto claro u oscuro
+            gridColor:     dark ? 'rgba(148, 163, 184, 0.4)' : 'rgba(148, 163, 184, 0.4)'
+        };
+    }
+
+    let { axisTextColor, gridColor } = getChartColors();
+
+    const tarifasCtx = document.getElementById('graficoTarifas');
+    const consumoCtx = document.getElementById('graficoConsumo');
+
+    let chartTarifas = null;
+    let chartConsumo = null;
+
+    if (tarifasCtx) {
+        chartTarifas = new Chart(tarifasCtx, {
+            type: 'line',
+            data: graficoTarifasData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: axisTextColor
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: axisTextColor
+                        },
+                        grid: {
+                            color: gridColor
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: axisTextColor
+                        },
+                        grid: {
+                            color: gridColor
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    if (consumoCtx) {
+        chartConsumo = new Chart(consumoCtx, {
+            type: 'bar',
+            data: graficoConsumoData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: axisTextColor
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: axisTextColor
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: axisTextColor
+                        },
+                        grid: {
+                            color: gridColor
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Cuando cambie el tema (data-theme), actualizar colores de los gráficos
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'data-theme') {
+                const colors = getChartColors();
+                axisTextColor = colors.axisTextColor;
+                gridColor = colors.gridColor;
+
+                [chartTarifas, chartConsumo].forEach((chart) => {
+                    if (!chart) return;
+
+                    // Leyenda
+                    if (chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.labels) {
+                        chart.options.plugins.legend.labels.color = axisTextColor;
+                    }
+
+                    // Ejes
+                    if (chart.options.scales && chart.options.scales.x) {
+                        chart.options.scales.x.ticks.color = axisTextColor;
+                        if (chart.options.scales.x.grid && chart.options.scales.x.grid.display !== false) {
+                            chart.options.scales.x.grid.color = gridColor;
+                        }
+                    }
+
+                    if (chart.options.scales && chart.options.scales.y) {
+                        chart.options.scales.y.ticks.color = axisTextColor;
+                        chart.options.scales.y.grid.color = gridColor;
+                    }
+
+                    chart.update();
+                });
+            }
+        });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+</script>
+
+
+<script>
+    const IOT_SYNC_MS = 60000;
+
+    async function syncIoT() {
+        if (document.hidden) return;
+
+        try {
+            await fetch("{% url 'consumos:sincronizar_lecturas_iot' %}", {
+                credentials: "same-origin"
+            });
+        } catch (err) {
+            console.error("IoT sync error:", err);
+        }
+    }
+
+    setInterval(syncIoT, IOT_SYNC_MS);
+</script>
+
+{% endblock %}

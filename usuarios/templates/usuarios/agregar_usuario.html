@@ -1,0 +1,138 @@
+{% extends "usuarios/base_usuarios.html" %}
+
+{% block title %}Agregar Usuario{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    
+    <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-primary">Agregar Nuevo Usuario</h2>
+        <p class="text-base-content/70 mt-2">
+            Completa el formulario para registrar un socio en el sistema.
+        </p>
+    </div>
+
+    <div class="card bg-base-100 shadow-xl border border-base-200">
+        <div class="card-body p-6 sm:p-8">
+            
+            <form method="post" id="form-agregar-usuario" novalidate>
+                {% csrf_token %}
+
+                {% if form.errors %}
+                <div role="alert" class="alert alert-error mb-6 shadow-sm">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <div>
+                        <h3 class="font-bold">Se encontraron errores:</h3>
+                        <ul class="text-sm list-disc list-inside">
+                            {% for field, errors in form.errors.items %}
+                                <li><strong>{{ field|capfirst }}:</strong> {{ errors|join:", " }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="form-control mb-4">
+                    <label for="id_nombre" class="label">
+                        <span class="label-text font-bold flex items-center gap-2">
+                            <i class="bi bi-person-badge text-primary"></i> Nombre Completo
+                        </span>
+                    </label>
+                    <div class="input-group-fix">
+                        {{ form.nombre }}
+                    </div>
+                    <label class="label">
+                        <span class="label-text-alt text-base-content/60">Ejemplo: Juan Pérez</span>
+                    </label>
+                </div>
+
+                <div class="form-control mb-4">
+                    <label for="id_rut" class="label">
+                        <span class="label-text font-bold flex items-center gap-2">
+                            <i class="bi bi-credit-card-2-front text-primary"></i> RUT
+                        </span>
+                    </label>
+                    <div class="input-group-fix">
+                        {{ form.rut }}
+                    </div>
+                    <label class="label">
+                        <span class="label-text-alt text-base-content/60">Formato: 12.345.678-K</span>
+                    </label>
+                </div>
+
+                <div class="form-control mb-4">
+                    <label for="id_correo" class="label">
+                        <span class="label-text font-bold flex items-center gap-2">
+                            <i class="bi bi-envelope text-primary"></i> Correo Electrónico
+                        </span>
+                    </label>
+                    <div class="input-group-fix">
+                        {{ form.correo }}
+                    </div>
+                    <label class="label">
+                        <span class="label-text-alt text-base-content/60">Ejemplo: usuario@dominio.com</span>
+                    </label>
+                </div>
+
+                <div class="form-control mb-4">
+                    <label for="id_direccion" class="label">
+                        <span class="label-text font-bold flex items-center gap-2">
+                            <i class="bi bi-geo-alt text-primary"></i> Dirección
+                        </span>
+                    </label>
+                    <div class="input-group-fix">
+                        {{ form.direccion }}
+                    </div>
+                    <label class="label">
+                        <span class="label-text-alt text-base-content/60">Ejemplo: Calle Principal 123</span>
+                    </label>
+                </div>
+
+                <div class="form-control mb-6">
+                    <label for="id_telefono" class="label">
+                        <span class="label-text font-bold flex items-center gap-2">
+                            <i class="bi bi-telephone text-primary"></i> Teléfono
+                        </span>
+                    </label>
+                    <div class="input-group-fix">
+                        {{ form.telefono }}
+                    </div>
+                    <label class="label">
+                        <span class="label-text-alt text-base-content/60">Formato: +569XXXXXXXX</span>
+                    </label>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 mt-4 border-t border-base-200 pt-6">
+                    <a href="{% url 'usuarios:lista_usuarios' %}" class="btn btn-ghost hover:bg-base-200 text-base-content/80">
+                        <i class="bi bi-x-lg"></i> Cancelar
+                    </a>
+                    
+                    <button type="submit" class="btn btn-success text-white shadow-md">
+                        <i class="bi bi-save"></i> Guardar Usuario
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Seleccionamos todos los inputs y selects dentro del formulario
+        const inputs = document.querySelectorAll('#form-agregar-usuario input, #form-agregar-usuario select, #form-agregar-usuario textarea');
+        
+        inputs.forEach(input => {
+            // Agregamos clases de DaisyUI y Tailwind
+            input.classList.add('input', 'input-bordered', 'w-full', 'focus:input-primary', 'transition-all');
+            
+            // Si es checkbox, usamos toggle
+            if(input.type === 'checkbox') {
+                input.className = 'toggle toggle-primary';
+            }
+            
+            // Eliminamos la clase 'form-control' de bootstrap si viene desde Python
+            input.classList.remove('form-control');
+        });
+    });
+</script>
+{% endblock %}

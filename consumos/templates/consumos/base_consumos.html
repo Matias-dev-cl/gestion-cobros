@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Gestión de Consumos | Comité APR{% endblock %}</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{% static 'img/FlowWeb_Logo.png' %}">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nahueltoro: {
+              light: '#e6f0ff',
+              DEFAULT: '#0077cc',
+              dark: '#005fa3',
+            }
+          }
+        }
+      },
+      plugins: [daisyui],
+      daisyui: {
+        themes: [
+          {
+            light: {
+              "primary": "#0077cc",
+              "secondary": "#00bcd4",
+              "accent": "#0066a1",
+              "neutral": "#2a2a2a",
+              "base-100": "#ffffff",
+              "base-200": "#f8fafc",
+              "base-300": "#e2e8f0",
+              "base-content": "#1e293b",
+              "info": "#0099ff",
+              "success": "#22c55e",
+              "warning": "#facc15",
+              "error": "#ef4444",
+            },
+          },
+          "dark",
+        ],
+      },
+    };
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+
+  <style>
+    /* Transiciones suaves */
+    body, header, footer, div, section, nav {
+      transition-property: background-color, border-color, color;
+      transition-duration: 300ms;
+    }
+
+    /* ========================================================= */
+    /* SOLUCIÓN AL FONDO NEGRO DEL MODAL (CRÍTICO) */
+    /* ========================================================= */
+    dialog::backdrop {
+      background-color: rgba(0, 0, 0, 0.5) !important;
+      backdrop-filter: blur(4px);
+    }
+    
+    /* Correcciones para Inputs y Tablas en Modo Oscuro (Bootstrap conflicts) */
+    [data-theme="dark"] input, 
+    [data-theme="dark"] select, 
+    [data-theme="dark"] textarea, 
+    [data-theme="dark"] .form-control, 
+    [data-theme="dark"] .form-select {
+      background-color: #1d232a !important; 
+      color: #a6adbb !important; 
+      border-color: #384152 !important;
+    }
+    
+    [data-theme="dark"] ::placeholder { opacity: 0.6; color: #a6adbb !important; }
+
+    /* Quitar fondo blanco forzado de tablas bootstrap */
+    .table, table { --bs-table-bg: transparent !important; --bs-table-color: inherit !important; color: inherit !important; background-color: transparent !important; }
+    td, th { background-color: transparent !important; }
+  </style>
+
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  </script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="min-h-screen bg-base-200 text-base-content flex flex-col font-sans transition-colors duration-300">
+
+  <div class="drawer min-h-screen">
+    <input id="sidebar-toggle" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+
+      <header class="sticky top-0 z-40 border-b border-base-300 bg-base-100/95 backdrop-blur supports-[backdrop-filter]:bg-base-100/80">
+        <div class="navbar px-4 sm:px-8">
+          
+          <div class="flex-none mr-2">
+            <label for="sidebar-toggle" class="btn btn-ghost btn-circle">
+              <i class="bi bi-list text-2xl text-primary"></i>
+            </label>
+          </div>
+
+          <div class="flex-1 flex items-center gap-3">
+            <label for="sidebar-toggle" class="flex items-center gap-3 group cursor-pointer select-none">
+              <img src="{% static 'img/FlowWeb_Logo.png' %}" alt="Logo Comité APR"
+                   class="h-10 w-10 object-contain rounded-md shadow-sm transition-transform group-hover:scale-105">
+              <div class="leading-tight">
+                <span class="block font-bold text-lg text-primary">Comité APR Nahueltoro</span>
+                <span class="block text-xs opacity-70">Gestión de Consumos</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="flex-none flex items-center gap-3">
+            <label class="swap swap-rotate btn btn-ghost btn-circle btn-sm border border-base-300">
+              <input type="checkbox" id="theme-toggle" />
+              <i class="bi bi-sun-fill text-xl swap-on fill-current text-warning"></i>
+              <i class="bi bi-moon-fill text-xl swap-off fill-current text-primary"></i>
+            </label>
+          </div>
+        </div>
+      </header>
+
+      <main class="flex-1 w-full">
+        <div class="container mx-auto px-4 py-8">
+            
+
+            <div class="bg-base-100 rounded-2xl shadow-lg border border-base-300 p-6 md:p-8 transition-colors duration-300">
+                
+                {% if messages %}
+                <div class="space-y-2 mb-6">
+                    {% for message in messages %}
+                    <div role="alert" class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>{{ message }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+      </main>
+
+      <footer class="mt-auto bg-base-100 border-t border-base-300 py-6 text-center">
+        <div class="container mx-auto px-4">
+          <p class="text-sm opacity-70">
+            Comité APR Nahueltoro · FlowWeb © {{ current_year|default:"2025" }}
+          </p>
+        </div>
+      </footer>
+
+    </div>
+
+    <div class="drawer-side z-50">
+      <label for="sidebar-toggle" class="drawer-overlay"></label>
+
+      <aside class="w-72 bg-base-100 border-r border-base-300 h-screen flex flex-col overflow-y-auto">
+        <div class="px-4 pt-5 pb-4 border-b border-base-300 sticky top-0 bg-base-100 z-10">
+          <div class="flex justify-between items-start mb-4">
+             <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-sm">
+                  <i class="bi bi-droplet-fill text-2xl"></i>
+                </div>
+                <div class="leading-tight">
+                  <p class="text-[0.7rem] uppercase tracking-wide text-base-content/60">Panel</p>
+                  <p class="font-semibold text-sm">Gestión APR</p>
+                </div>
+             </div>
+             <label for="sidebar-toggle" class="btn btn-sm btn-circle btn-ghost">
+                <i class="bi bi-x-lg"></i>
+             </label>
+          </div>
+
+          {% if user.is_authenticated %}
+          <div class="flex items-center gap-3 bg-base-200/80 rounded-xl px-3 py-3">
+            <div class="w-12 h-12 rounded-full bg-primary text-base-100 flex items-center justify-center text-2xl">
+              <i class="bi bi-person-fill"></i>
+            </div>
+            <div class="leading-snug">
+              <p class="text-sm font-semibold truncate max-w-[160px]">
+                {{ user.get_full_name|default:user.username }}
+              </p>
+              <p class="text-[0.72rem] uppercase tracking-wide text-primary font-medium">
+                {% if user.rol == 'admin' %}Administrador
+                {% elif user.rol == 'secretaria' %}Secretaría
+                {% elif user.rol == 'operario' %}Operario
+                {% else %}Usuario{% endif %}
+              </p>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <nav class="flex-1 px-3 py-4 text-sm">
+          
+          <p class="text-[0.7rem] uppercase tracking-wide text-base-content/60 px-3 mb-2">General</p>
+          <ul class="space-y-1 mb-6">
+            <li>
+              <a href="{% url 'roles:redireccion_dashboard' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base-200/80 transition">
+                <i class="bi bi-speedometer2 text-lg opacity-80"></i>
+                <span>Menu Principal</span>
+              </a>
+            </li>
+          </ul>
+
+          {% if user.is_authenticated %}
+          <p class="text-[0.7rem] uppercase tracking-wide text-base-content/60 px-3 mb-2">Consumos</p>
+          <ul class="space-y-1">
+            <li>
+              <a href="{% url 'consumos:lista_usuarios' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base-200/80 transition">
+                <i class="bi bi-people text-lg opacity-80"></i>
+                <span>Usuarios con Medidor</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'consumos:lista_usuarios_consumos' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base-200/80 transition">
+                <i class="bi bi-clock-history text-lg opacity-80"></i>
+                <span>Historial de Lecturas</span>
+              </a>
+            </li>
+          </ul>
+          {% endif %}
+
+        </nav>
+
+        <div class="border-t border-base-300 px-4 py-4 text-xs mt-auto">
+          {% if user.is_authenticated %}
+          <a href="{% url 'login:logout' %}" class="btn btn-error btn-sm w-full flex items-center justify-center gap-2">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Cerrar sesión</span>
+          </a>
+          {% else %}
+          <a href="{% url 'login:login' %}" class="btn btn-primary btn-sm w-full flex items-center justify-center gap-2">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Iniciar sesión</span>
+          </a>
+          {% endif %}
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    function setAppTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      if (themeToggle) themeToggle.checked = theme === 'dark';
+    }
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setAppTheme(savedTheme);
+
+    if (themeToggle) {
+      themeToggle.addEventListener('change', function () {
+        setAppTheme(this.checked ? 'dark' : 'light');
+      });
+    }
+  </script>
+
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>
