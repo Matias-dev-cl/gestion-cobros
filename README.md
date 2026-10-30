@@ -34,6 +34,12 @@ Abrir http://127.0.0.1:8000/. La cuenta creada necesita un rol apropiado para ac
 
 SQLite es el valor predeterminado para exploración local. Para utilizar PostgreSQL, exportar las variables DB_HOST, DB_NAME, DB_USER, DB_PASSWORD y DB_PORT descritas en `.env.example`. Ese archivo es una referencia y no se carga automáticamente.
 
+## Panel de portafolio
+
+El panel administrativo incluye indicadores de facturación, tendencia de seis meses, estado del servicio y boletas recientes. Para explorarlo con información ficticia: `python manage.py seed_demo` con DEBUG=True. El comando se puede repetir sin duplicar los registros de muestra.
+
+Consultar [arquitectura y decisiones](docs/architecture.md) para las definiciones de indicadores, límites del proyecto y próximas mejoras. Ejecutar `python manage.py test` para verificar los cálculos, validaciones y permisos cubiertos.
+
 ## Integración IoT
 
 `Codigo_Esp32.txt` contiene el prototipo del medidor. Sus valores de conexión están reemplazados por marcadores. La sincronización requiere PostgreSQL/Supabase y la tabla externa `medidas`, mapeada por `MedidaRaw`; las migraciones no crean esa tabla. El funcionamiento del hardware y de servicios externos debe validarse en el entorno correspondiente.
