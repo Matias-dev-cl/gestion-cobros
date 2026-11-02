@@ -1,0 +1,742 @@
+/* FlowWeb shared interface: every HTML screen uses the same shell and controls. */
+[data-theme="flowweb"] {
+    color-scheme:light;
+    --p:49% .08 185;
+    --pc:100% 0 0;
+    --s:43% .04 220;
+    --sc:100% 0 0;
+    --a:49% .08 185;
+    --ac:100% 0 0;
+    --n:31% .03 220;
+    --nc:100% 0 0;
+    --b1:100% 0 0;
+    --b2:97% .005 220;
+    --b3:92% .01 220;
+    --bc:31% .03 220;
+    --su:58% .09 155;
+    --suc:100% 0 0;
+    --wa:73% .12 80;
+    --wac:30% .06 70;
+    --er:55% .12 20;
+    --erc:100% 0 0;
+    --in:55% .07 185;
+    --inc:100% 0 0;
+    --rounded-box:12px;
+    --rounded-btn:7px;
+    --border-btn:1px;
+    --animation-btn:0s
+}
+
+.fw {
+    font-family:'Segoe UI',Arial,sans-serif;
+    background:#f5f7f9;
+    color:#243b47
+}
+.fw .sidebar nav {
+    overflow-y:auto
+}
+.fw .sidebar nav a {
+    flex-shrink:0
+}
+.fw .topbar .public-nav a {
+    margin:0
+}
+.fw .topbar a:hover {
+    text-decoration:none
+}
+.fw .page-content {
+    min-height:calc(100vh - 70px)
+}
+.fw .page-content>.container {
+    max-width:none;
+    padding:0;
+    margin:0
+}
+.fw .page-content>.max-w-7xl,.fw .page-content>.max-w-6xl {
+    max-width:none;
+    padding:0
+}
+.fw .page-content h1 {
+    font-size:30px;
+    font-weight:650;
+    letter-spacing:-1px;
+    line-height:1.25;
+    color:#243b47
+}
+.fw .page-content h2 {
+    font-weight:650;
+    color:#243b47;
+    letter-spacing:-.4px
+}
+.fw .page-content h2.text-3xl {
+    font-size:28px
+}
+.fw .page-content h3 {
+    color:#334e59
+}
+.fw .text-primary {
+    color:#187d78!important
+}
+.fw .text-info {
+    color:#187d78!important
+}
+.fw .card,.fw .panel {
+    border:1px solid #e3e9ec!important;
+    border-radius:12px!important;
+    box-shadow:none!important;
+    background:#fff
+}
+.fw .card-body {
+    padding:25px;
+    gap:14px
+}
+.fw .shadow-xl,.fw .shadow-2xl,.fw .shadow-lg,.fw .shadow-md {
+    box-shadow:none!important
+}
+.fw .page-content .text-center.mb-8,.fw .page-content .text-center.mb-10 {
+    text-align:left;
+    margin-bottom:28px
+}
+.fw .page-content .card-title {
+    font-size:17px
+}
+.fw .page-content :is(.animate-entry,.animate-fade-in) {
+    opacity:1;
+    animation:none
+}
+.fw .page-content [class*='hover:-translate'] {
+    transform:none!important
+}
+.fw .page-content .bg-base-200 {
+    background:#f5f7f9
+}
+.fw .page-content .bg-base-100 {
+    background:#fff
+}
+.fw .page-content .border-base-200,.fw .page-content .border-base-300 {
+    border-color:#e3e9ec
+}
+.fw .page-content .btn {
+    border-radius:7px;
+    min-height:40px;
+    height:auto;
+    padding:10px 15px;
+    font-size:12px;
+    font-weight:600;
+    box-shadow:none!important;
+    text-transform:none;
+    line-height:1.25
+}
+.fw .page-content .btn-sm {
+    min-height:34px;
+    padding:8px 11px
+}
+.fw .page-content .btn-circle {
+    width:36px;
+    min-width:36px;
+    padding:8px
+}
+.fw .page-content :is(.btn-primary,.btn-info,.btn-success) {
+    color:#fff;
+    background:#187d78;
+    border-color:#187d78
+}
+.fw .page-content :is(.btn-primary,.btn-info,.btn-success):hover {
+    background:#116661;
+    border-color:#116661
+}
+.fw .page-content .btn-outline {
+    background:white;
+    color:#187d78;
+    border:1px solid #c8dcd8
+}
+.fw .page-content .btn-error {
+    background:#fff2f1;
+    color:#a44048;
+    border-color:#f0d4d2
+}
+.fw .page-content .btn-ghost {
+    background:transparent;
+    color:#627985;
+    border-color:transparent
+}
+.fw .page-content :is(input:not([type='checkbox']):not([type='radio']):not([type='hidden']),select,textarea) {
+    border:1px solid #d9e3e6;
+    border-radius:7px;
+    background:#fff;
+    color:#243b47;
+    min-height:43px;
+    padding:10px 12px;
+    font:inherit;
+    width:100%;
+    box-sizing:border-box
+}
+.fw .page-content :is(input,select,textarea):focus {
+    outline:2px solid #8ac7bd;
+    outline-offset:1px;
+    border-color:#187d78
+}
+.fw input::placeholder,.fw textarea::placeholder {
+    color:#94a3ac;
+    font-size:12px
+}
+.fw .label {
+    padding:7px 0
+}
+.fw .label-text {
+    font-size:12px;
+    font-weight:600;
+    color:#435b67
+}
+.fw .label-text-alt {
+    font-size:11px;
+    color:#83959e
+}
+.fw .page-content table {
+    width:100%;
+    border-collapse:collapse;
+    margin-top:0
+}
+.fw .page-content thead {
+    background:#f8fafb!important;
+    color:#83939d
+}
+.fw .page-content th {
+    font-size:11px;
+    color:#7d909b;
+    font-weight:600;
+    background:#f8fafb!important;
+    text-transform:none!important;
+    letter-spacing:0!important
+}
+.fw .page-content td {
+    font-size:13px;
+    color:#526b78;
+    background:transparent
+}
+.fw .page-content th,.fw .page-content td {
+    padding:14px 16px;
+    border-bottom:1px solid #edf1f3
+}
+.fw .page-content tbody tr {
+    background:#fff!important
+}
+.fw .page-content tbody tr:hover {
+    background:#f6faf9!important
+}
+.fw .page-content :is(.table-zebra tbody tr:nth-child(even),.table-zebra tbody tr:nth-child(odd)) {
+    background:#fff
+}
+.fw .page-content .badge {
+    border-radius:5px;
+    font-size:11px;
+    font-weight:500;
+    padding:5px 9px;
+    height:auto;
+    white-space:nowrap;
+    border:0
+}
+.fw .page-content .badge-success {
+    background:#eaf6ef;
+    color:#398661
+}
+.fw .page-content .badge-warning {
+    background:#fff5df;
+    color:#947122
+}
+.fw .page-content .badge-info,.fw .page-content .badge-primary {
+    background:#e7f4f1;
+    color:#187d78
+}
+.fw .page-content .badge-error {
+    background:#fceeed;
+    color:#a44048
+}
+.fw .page-content .alert {
+    border-radius:8px;
+    font-size:13px;
+    box-shadow:none
+}
+.fw .page-content .alert-info {
+    background:#edf7f4;
+    color:#296e65;
+    border:1px solid #d7eae4
+}
+.fw .page-content .alert-error {
+    background:#fff2f1;
+    color:#a44048;
+    border:1px solid #f0d4d2
+}
+.fw dialog::backdrop {
+    background:#153b4560;
+    backdrop-filter:blur(2px)
+}
+.fw .modal-box {
+    border-radius:12px;
+    background:#fff;
+    border:1px solid #e3e9ec
+}
+.fw .modal:not([open]) {
+    display:none
+}
+.fw .table-scroll,.fw .overflow-x-auto {
+    max-width:100%;
+    overflow-x:auto
+}
+.fw .page-content [class*='bg-gradient'] {
+    background-image:none!important;
+    background-color:#f0f7f5!important
+}
+.fw .page-content [class*='bg-gradient'] :is(h1,h2,h3,p) {
+    color:#243b47!important
+}
+.fw .fw-messages:empty {
+    display:none
+}
+.fw .fw-messages {
+    display:grid;
+    gap:10px;
+    margin-bottom:18px
+}
+.fw .public-workspace {
+    margin:0 auto
+}
+.fw-public .topbar {
+    padding:0 max(24px,calc((100vw - 1220px)/2));
+    height:82px
+}
+.fw-public .topbar .brand {
+    padding:0
+}
+.fw-public .public-nav {
+    display:flex;
+    gap:24px;
+    align-items:center
+}
+.fw-public .public-nav a {
+    font-size:12px;
+    padding:0;
+    color:#627985
+}
+.fw-public .public-nav .primary {
+    padding:11px 17px;
+    color:white
+}
+.fw-public main {
+    max-width:1220px;
+    padding:50px 28px 20px
+}
+.fw .hero-layout {
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:60px;
+    align-items:center;
+    padding:30px 0 65px
+}
+.fw .hero-layout h1 {
+    font-size:52px;
+    line-height:1.12;
+    letter-spacing:-2px;
+    max-width:650px;
+    margin:17px 0 24px
+}
+.fw .hero-copy {
+    color:#728891;
+    font-size:16px;
+    line-height:1.8;
+    max-width:510px
+}
+.fw .hero-actions {
+    display:flex;
+    gap:12px;
+    margin-top:30px;
+    flex-wrap:wrap
+}
+.fw .hero-visual {
+    background:#e9f2ef;
+    border:1px solid #dbe8e2;
+    border-radius:22px;
+    padding:40px 32px;
+    position:relative;
+    overflow:hidden
+}
+.fw .water-symbol {
+    font-size:100px;
+    line-height:1;
+    color:#187d78;
+    text-align:center;
+    margin-bottom:28px
+}
+.fw .hero-visual .mini-card {
+    border:1px solid #dce9e3;
+    border-radius:12px;
+    background:white;
+    padding:19px;
+    margin:14px 0;
+    display:flex;
+    gap:15px;
+    align-items:center
+}
+.fw .mini-card i {
+    color:#187d78;
+    font-size:24px
+}
+.fw .mini-card strong {
+    display:block;
+    font-size:14px
+}
+.fw .mini-card small {
+    color:#8a9d98;
+    font-size:12px
+}
+.fw .feature-grid {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:22px;
+    margin:26px 0 48px
+}
+.fw .feature-card {
+    background:white;
+    border:1px solid #e3e9ec;
+    border-radius:12px;
+    padding:28px
+}
+.fw .feature-card i {
+    display:inline-block;
+    color:#187d78;
+    font-size:24px;
+    margin-bottom:22px
+}
+.fw .feature-card h3 {
+    font-size:17px;
+    font-weight:600;
+    margin-bottom:12px
+}
+.fw .feature-card p {
+    font-size:13px;
+    color:#80929c;
+    line-height:1.8
+}
+.fw .section-heading {
+    margin-top:24px
+}
+.fw .section-heading h2 {
+    font-size:26px;
+    margin-bottom:9px
+}
+.fw .community-strip {
+    background:#e9f2ef;
+    border-radius:12px;
+    padding:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:30px
+}
+.fw .community-strip p {
+    font-size:13px;
+    color:#708880;
+    max-width:650px;
+    margin-top:8px
+}
+.fw .auth-layout {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:center;
+    max-width:1030px;
+    margin:60px auto 90px
+}
+.fw .auth-layout h1 {
+    font-size:42px;
+    line-height:1.2;
+    margin:15px 0 22px
+}
+.fw .auth-card {
+    background:#fff;
+    border:1px solid #e3e9ec;
+    border-radius:14px;
+    padding:36px
+}
+.fw .auth-card h2 {
+    font-size:23px;
+    margin-bottom:10px
+}
+.fw .auth-card .form-control {
+    margin-top:18px
+}
+.fw .auth-card .btn {
+    width:100%;
+    margin-top:24px
+}
+.fw .auth-card .back-link {
+    display:block;
+    text-align:center;
+    margin-top:24px;
+    font-size:12px;
+    color:#7b909c
+}
+.fw .about-content {
+    max-width:900px;
+    margin:20px auto
+}
+.fw .about-content h1 {
+    margin:15px 0 20px
+}
+.fw .about-content>p {
+    color:#768d97;
+    line-height:1.9;
+    font-size:16px
+}
+.fw footer {
+    font-size:11px;
+    border-top:1px solid #e5eaed;
+    margin-top:40px;
+    padding-top:20px
+}
+.fw :focus-visible {
+    outline:2px solid #55bdcb;
+    outline-offset:3px
+}
+
+@media(max-width:900px) {
+    .fw .hero-layout {
+    gap:30px
+}
+.fw .hero-layout h1 {
+    font-size:40px
+}
+.fw .auth-layout {
+    gap:30px
+}
+.fw .auth-layout h1 {
+    font-size:34px
+}
+.fw .sidebar nav {
+    overflow-y:visible
+}
+.fw .feature-grid {
+    gap:12px
+}
+.fw .feature-card {
+    padding:20px
+}
+
+}
+
+@media(max-width:680px) {
+    .fw .sidebar nav {
+    overflow-x:auto
+}
+.fw-public .topbar {
+    height:auto;
+    min-height:78px;
+    padding:17px;
+    gap:20px;
+    align-items:flex-start;
+    flex-wrap:wrap
+}
+.fw-public .public-nav {
+    width:100%;
+    justify-content:space-between;
+    gap:8px;
+    overflow:visible
+}
+.fw-public .public-nav a {
+    font-size:11px
+}
+.fw-public main {
+    padding:28px 18px 18px
+}
+.fw .hero-layout {
+    grid-template-columns:1fr;
+    gap:28px;
+    padding:15px 0 36px
+}
+.fw .hero-layout h1 {
+    font-size:38px
+}
+.fw .hero-copy {
+    font-size:14px
+}
+.fw .hero-visual {
+    padding:24px
+}
+.fw .water-symbol {
+    font-size:65px;
+    margin-bottom:10px
+}
+.fw .feature-grid {
+    grid-template-columns:1fr
+}
+.fw .community-strip {
+    display:block;
+    padding:22px
+}
+.fw .community-strip .button {
+    margin-top:20px
+}
+.fw .auth-layout {
+    grid-template-columns:1fr;
+    gap:28px;
+    margin:15px 0 35px
+}
+.fw .auth-layout h1 {
+    font-size:30px
+}
+.fw .auth-card {
+    padding:25px
+}
+.fw .page-content>.container {
+    padding:0
+}
+.fw .page-content .card-body {
+    padding:19px
+}
+.fw .page-content h2.text-3xl {
+    font-size:24px
+}
+.fw .page-content .overflow-x-auto {
+    width:100%
+}
+.fw .page-content .btn {
+    white-space:normal
+}
+ .fw .page-content>.max-w-7xl {
+    margin:0
+}
+.fw .page-content .min-w-\[350px\] {
+    min-width:0
+}
+.fw .page-content .table {
+    min-width:600px
+}
+
+}
+
+@media print {
+    .fw .sidebar,.fw .topbar,.fw footer,.fw .skip,.fw .no-print {
+    display:none!important
+}
+.fw .workspace {
+    margin:0
+}
+.fw main {
+    padding:0
+}
+.fw .card {
+    border:0!important
+}
+
+}
+
+
+.fw .password-toggle {
+    position:absolute;
+    right:12px;
+    top:10px;
+    color:#718c94;
+    padding:2px 5px
+}
+.fw .auth-card input[name="password"] {
+    padding-right:45px
+}
+.fw .errorlist {
+    color:#a44048;
+    font-size:12px;
+    margin-top:6px
+}
+
+
+.fw .page-content :is(h1,h2,h3).text-primary {
+    color:#243b47!important
+}
+.fw .stats {
+    border-radius:12px;
+    box-shadow:none;
+    border-color:#e3e9ec
+}
+.fw .stat-title {
+    font-size:12px;
+    color:#7c919d
+}
+.fw .stat-value {
+    font-size:28px;
+    font-weight:650;
+    color:#243b47
+}
+.fw .stat-desc {
+    font-size:11px;
+    color:#8799a2
+}
+.fw .page-content :is(.card-title,.section-heading) .text-white {
+    color:#243b47
+}
+
+
+.fw .page-content .card.bg-base-200,.fw .page-content .stat {
+    background:#fff!important;
+    border-radius:12px;
+    border:1px solid #e3e9ec;
+    padding:22px
+}
+.fw .page-content .stats .stat {
+    border:0;
+    border-right:1px solid #edf1f3;
+    border-radius:0
+}
+.fw .page-content .stats .stat:last-child {
+    border-right:0
+}
+.fw .page-content .stat-value {
+    margin:12px 0 8px
+}
+.fw .page-content :is(.font-extrabold,.font-black) {
+    font-weight:650
+}
+.fw .page-content h1 {
+    margin-bottom:8px
+}
+.fw .page-content .divider {
+    font-size:14px;
+    color:#7d909b
+}
+.fw .modal .btn {
+    min-width:90px
+}
+.fw .page-content button:disabled {
+    opacity:.5;
+    cursor:not-allowed
+}
+
+.fw .page-content .grid>* {
+    min-width:0
+}
+.fw .page-content canvas {
+    max-width:100%
+}
+.fw .stat-desc {
+    white-space:normal
+}
+@media(max-width:680px) {
+    .fw .page-content .card-body {
+    min-width:0
+}
+.fw .page-content .grid {
+    min-width:0
+}
+
+}
+
+
+.fw .auth-card input.form-control {
+    margin-top:0
+}
+.fw .password-toggle {
+    top:50%;
+    transform:translateY(-50%)
+}
+.fw .page-content input[class*="pl-"] {
+    padding-left:38px
+}
+

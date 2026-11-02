@@ -39,7 +39,7 @@ El alcance desarrollado cubre el registro administrativo y la visualización de 
 
 ## Capturas de la aplicación
 
-Capturas de la aplicación ejecutándose localmente con **datos ficticios de demostración**. Las cifras y los nombres no corresponden a registros operativos del comité. El panel administrativo tiene un diseño renovado; los otros módulos conservan el diseño del proyecto de título mientras continúa su evolución.
+Capturas de la aplicación ejecutándose localmente con **datos ficticios de demostración**. Las cifras y los nombres no corresponden a registros operativos del comité. La portada, el acceso y los módulos administrativos comparten la misma identidad visual: navegación, paleta verde agua, tipografía, formularios, tablas y ventanas de confirmación. Las capturas muestran esta versión unificada.
 
 ### Historial de boletas
 
@@ -53,13 +53,27 @@ Entrada pública a la plataforma, con acceso al inicio de sesión del personal y
 
 ![Portada de FlowWeb para el Comité APR Nahueltoro](docs/screenshots/portada.jpg)
 
+### Acceso del personal
+
+Entrada al panel con el mismo lenguaje visual del portal público y los módulos internos.
+
+![Acceso del personal de FlowWeb](docs/screenshots/acceso-personal.jpg)
+
+### Formularios y reportes
+
+Los formularios comparten controles, foco visible y mensajes. Los reportes utilizan la misma paleta del panel y del resto del sistema.
+
+![Formulario de registro de usuarios](docs/screenshots/formulario-usuario.jpg)
+
+![Reportes de FlowWeb](docs/screenshots/reportes.jpg)
+
 ## Tecnologías
 
 | Área | Implementación |
 | --- | --- |
 | Backend | Python, Django 4.2 y ORM de Django. |
 | Datos | PostgreSQL/Supabase en la integración original; SQLite como alternativa local para explorar la aplicación. |
-| Frontend | Plantillas de Django, HTML, JavaScript, Tailwind CSS y Bootstrap en los módulos originales; CSS local en el panel administrativo renovado. |
+| Frontend | Plantillas de Django, HTML, JavaScript, Tailwind CSS y Bootstrap en los módulos originales; una estructura y estilos compartidos para todas las páginas visibles. |
 | Visualización | Chart.js en reportes originales y gráfico con HTML/CSS en el nuevo panel. |
 | Documentos | Generación de PDF mediante xhtml2pdf. |
 | IoT | ESP32, sensor de flujo YF-S201, reloj DS3231 y envío HTTP a Supabase. |
@@ -134,7 +148,7 @@ python manage.py check
 python manage.py test
 ```
 
-La suite actual incluye siete pruebas: autenticación, acceso al panel según el rol, indicadores con y sin datos, separación de meses/años y validación de lecturas para boletas. Las capturas documentan la apariencia de la aplicación, no una certificación de todos sus flujos.
+La suite actual incluye once pruebas: autenticación, acceso al panel según el rol, indicadores con y sin datos, separación de meses/años, validación de lecturas para boletas y carga de listas, formularios, detalles y confirmaciones con la estructura compartida. Las capturas documentan la apariencia de la aplicación, no una certificación de todos sus flujos.
 
 ## Integración IoT
 
@@ -146,7 +160,7 @@ Esta versión conserva el código de integración, pero la revisión del portafo
 
 Proyecto de título en evolución hacia un portafolio demostrable. El entorno local permite explorar la aplicación; no se presenta como un servicio de facturación certificado ni listo para producción.
 
-- Extender el diseño del panel a formularios y módulos administrativos.
+- Ampliar las pruebas de interacción de formularios y ventanas de confirmación.
 - Formalizar las reglas tarifarias y reforzar la prevención de cobros duplicados.
 - Sustituir la simulación de pagos por una demo que no solicite datos de tarjeta.
 - Revisar permisos, privacidad de la consulta pública y dependencias antes de desplegar una demo pública.

@@ -7,7 +7,7 @@
 {% block content %}
 <div class="min-h-screen bg-base-200 py-8">
     <div class="container mx-auto px-4">
-        
+
         <!-- Header alineado con lista_cuentas -->
         <div class="mb-8">
             <div class="bg-base-100 rounded-2xl shadow-lg p-8 text-base-content border border-base-300">
@@ -43,18 +43,7 @@
                     {% csrf_token %}
 
                     <!-- Mensajes de Error/Éxito -->
-                    {% if messages %}
-                    <div class="mb-6">
-                        {% for message in messages %}
-                            {% if "registro_cuentas" in message.tags %}
-                            <div role="alert" class="alert alert-{% if 'error' in message.tags %}error{% else %}success{% endif %} shadow-md mb-2">
-                                <i class="bi {% if 'error' in message.tags %}bi-exclamation-circle{% else %}bi-check-circle{% endif %}"></i>
-                                <span>{{ message }}</span>
-                            </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    {% endif %}
+
 
                     <!-- Campos del Formulario -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -116,7 +105,7 @@
                         </div>
                     </div>
 
-                    <div class="divider"></div> 
+                    <div class="divider"></div>
 
                     <!-- Sección de Contraseña -->
                     <div class="alert bg-info/10 border-info/20 text-base-content mb-6 shadow-sm">

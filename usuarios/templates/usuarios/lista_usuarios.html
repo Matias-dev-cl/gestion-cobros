@@ -5,23 +5,7 @@
 {% block content %}
 
 {# Mensajes/Alertas Flotantes #}
-{% if messages %}
-<div class="toast toast-top toast-end z-50 p-4 gap-2">
-    {% for message in messages %}
-        <div class="alert alert-{% if 'error' in message.tags %}error{% else %}success{% endif %} shadow-xl border border-white/10 bg-opacity-90 backdrop-blur-sm flex items-center gap-3 animate-fade-in-up max-w-md text-white">
-            <div class="p-1 rounded-full bg-white/20">
-                <i class="bi {% if 'error' in message.tags %}bi-x-lg{% else %}bi-check-lg{% endif %} text-lg font-bold"></i>
-            </div>
-            <div class="flex-1">
-                <span class="font-medium text-sm">{{ message }}</span>
-            </div>
-            <button onclick="this.closest('.alert').remove()" class="btn btn-circle btn-xs btn-ghost text-white/70 hover:text-white hover:bg-white/20">
-                <i class="bi bi-x text-lg"></i>
-            </button>
-        </div>
-    {% endfor %}
-</div>
-{% endif %}
+
 
 <div class="min-h-screen bg-base-200 py-8 transition-colors duration-300">
     <div class="container mx-auto px-4">
@@ -205,17 +189,17 @@
 
                                 <td class="text-right pr-6">
                                     <div class="flex justify-end gap-2">
-                                        <a href="{% url 'usuarios:editar_usuario' usuario.id %}" 
+                                        <a href="{% url 'usuarios:editar_usuario' usuario.id %}"
                                            class="btn btn-sm btn-info text-white border-none shadow-md w-8 h-8 p-0 min-h-0 flex items-center justify-center"
                                            title="Editar socio">
                                             <i class="bi bi-pencil-square text-sm"></i>
                                         </a>
 
                                         {% if request.user.rol == 'admin' %}
-                                        <button 
+                                        <button
                                            onclick="abrirModalEliminarUsuario(
-                                               '{% url 'usuarios:eliminar_usuario' usuario.id %}', 
-                                               '{{ usuario.nombre }}', 
+                                               '{% url 'usuarios:eliminar_usuario' usuario.id %}',
+                                               '{{ usuario.nombre }}',
                                                '{{ usuario.rut }}'
                                            )"
                                            class="btn btn-sm btn-error text-white border-none shadow-md w-8 h-8 p-0 min-h-0 flex items-center justify-center"
@@ -309,14 +293,14 @@
 {# Modal eliminar usuario #}
 <dialog id="modal_eliminar_usuario" class="modal modal-bottom sm:modal-middle">
   <div class="modal-box bg-base-100 p-8 shadow-2xl">
-    
+
     <div class="flex flex-col items-center text-center">
         <div class="w-20 h-20 rounded-full bg-error/10 flex items-center justify-center mb-5 text-error animate-pulse">
             <i class="bi bi-person-x-fill text-4xl"></i>
         </div>
 
         <h3 class="font-bold text-2xl text-base-content">¿Eliminar socio?</h3>
-        
+
         <p class="py-4 text-base-content/70">
             Estás a punto de eliminar a: <br>
             <strong id="modal_nombre" class="text-base-content text-lg block mt-1">Nombre socio</strong>
@@ -342,7 +326,7 @@
         </form>
     </div>
   </div>
-  
+
   <form method="dialog" class="modal-backdrop">
     <button>close</button>
   </form>

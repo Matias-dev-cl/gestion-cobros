@@ -1,0 +1,93 @@
+{% load static %}
+<!doctype html>
+<html lang="es" data-theme="flowweb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}FlowWeb · Gestión APR{% endblock %}</title>
+<link rel="icon" href="{% static 'img/FlowWeb_Logo.png' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<script src="https://cdn.tailwindcss.com">
+</script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#187d78',secondary:'#385a65',accent:'#187d78',neutral:'#243b47','base-100':'#ffffff','base-200':'#f5f7f9','base-300':'#e3e9ec','base-content':'#243b47',success:'#398661',warning:'#a37c2b',error:'#b34b50',info:'#187d78'}}}};</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+</script>
+<script>if(window.Chart){Chart.defaults.animation=false;Chart.defaults.color='#7d909b';Chart.defaults.font.family='Segoe UI, Arial, sans-serif';Chart.register({id:'flowwebPalette',beforeInit(chart){const colors=['#187d78','#d6b46e','#b77373','#7ca59b'];chart.data.datasets.forEach((ds,i)=>{ds.backgroundColor=['doughnut','pie'].includes(chart.config.type)?colors:colors[i%colors.length];ds.borderColor=ds.backgroundColor;ds.borderRadius=4;});}});}</script>{% block extra_head %}{% endblock %}<link rel="stylesheet" href="{% static 'css/workspace.css' %}">
+<link rel="stylesheet" href="{% static 'css/interface.css' %}">
+</head>
+<body class="fw {% if fw_private %}fw-private{% else %}fw-public{% endif %}">
+<a class="skip" href="#main">Saltar al contenido</a>
+{% if fw_private %}<aside class="sidebar">
+<a class="brand" href="{% url 'roles:redireccion_dashboard' %}">
+<span class="brand-icon">≈</span> FlowWeb</a>
+<p class="workspace-label">COMITÉ APR NAHUELTORO</p>
+<nav aria-label="Navegación principal">
+<a {% if request.resolver_match.namespace == 'roles' %}class="selected" aria-current="page"{% endif %} href="{% url 'roles:redireccion_dashboard' %}">
+<i class="bi bi-grid">
+</i>
+<span>Resumen general</span>
+</a>
+{% if request.user.rol == 'admin' or request.user.rol == 'secretaria' %}<a {% if request.resolver_match.namespace == 'usuarios' %}class="selected" aria-current="page"{% endif %} href="{% url 'usuarios:lista_usuarios' %}">
+<i class="bi bi-people">
+</i>
+<span>Usuarios del servicio</span>
+</a>{% endif %}
+{% if request.user.rol == 'admin' or request.user.rol == 'operario' %}<a {% if request.resolver_match.namespace == 'medidores' %}class="selected" aria-current="page"{% endif %} href="{% url 'medidores:historial_medidores' %}">
+<i class="bi bi-speedometer2">
+</i>
+<span>Medidores</span>
+</a>
+<a {% if request.resolver_match.namespace == 'consumos' %}class="selected" aria-current="page"{% endif %} href="{% url 'consumos:lista_usuarios' %}">
+<i class="bi bi-water">
+</i>
+<span>Lecturas y consumos</span>
+</a>{% endif %}
+{% if request.user.rol == 'admin' or request.user.rol == 'secretaria' %}<a {% if request.resolver_match.namespace == 'boletas' %}class="selected" aria-current="page"{% endif %} href="{% url 'boletas:historial_recientes' %}">
+<i class="bi bi-receipt">
+</i>
+<span>Boletas y cobros</span>
+</a>{% endif %}{% if request.user.rol == 'admin' or request.user.rol == 'operario' %}<a {% if request.resolver_match.namespace == 'reportes' %}class="selected" aria-current="page"{% endif %} href="{% url 'reportes:dashboard' %}">
+<i class="bi bi-bar-chart">
+</i>
+<span>Reportes</span>
+</a>{% endif %}
+{% if request.user.rol == 'admin' %}<div class="nav-section">ADMINISTRACIÓN</div>
+<a {% if request.resolver_match.namespace == 'tarifas' %}class="selected" aria-current="page"{% endif %} href="{% url 'tarifas:historial_tarifas' %}">
+<i class="bi bi-tag">
+</i>
+<span>Tarifas</span>
+</a>
+<a {% if request.resolver_match.namespace == 'registro_cuentas' %}class="selected" aria-current="page"{% endif %} href="{% url 'registro_cuentas:lista_cuentas' %}">
+<i class="bi bi-shield-check">
+</i>
+<span>Cuentas y permisos</span>
+</a>{% endif %}</nav>
+<div class="sidebar-bottom">
+<span class="avatar">{{ request.user.username|first|upper }}</span>
+<div>
+<strong>{{ request.user.username }}</strong>
+<small>{{ request.user.get_rol_display }}</small>
+</div>
+<a href="{% url 'login:logout' %}" aria-label="Cerrar sesión" title="Cerrar sesión">
+<i class="bi bi-box-arrow-right">
+</i>
+</a>
+</div>
+</aside>{% endif %}
+<div class="{% if fw_private %}workspace{% else %}public-workspace{% endif %}">
+<header class="topbar">{% if fw_private %}<span>FlowWeb <span class="muted">/ Gestión del servicio</span>
+</span>
+<a class="text-link" href="{% url 'login:home' %}">Portal del comité ↗</a>{% else %}<a class="brand" href="{% url 'login:home' %}">
+<span class="brand-icon">≈</span> FlowWeb</a>
+<nav class="public-nav" aria-label="Navegación pública">
+<a href="{% url 'reportes:revisar_consumo' %}">Consultar consumo</a>
+<a href="{% url 'login:quienes_somos' %}">El comité</a>
+<a class="button primary" href="{% url 'login:login' %}">Acceso del personal →</a>
+</nav>{% endif %}</header>
+<main id="main" class="page-content">{% if messages %}<div class="fw-messages" aria-live="polite">{% for message in messages %}<div class="alert {% if 'error' in message.tags %}alert-error{% else %}alert-info{% endif %}">{{ message }}</div>{% endfor %}</div>{% endif %}{% block content %}{% endblock %}<footer>FlowWeb <span>Gestión de agua potable rural · {% now 'Y' %}</span>
+</footer>
+</main>
+</div>
+<script>document.querySelectorAll('button[onclick*="togglePassword"]').forEach(b=>{if(!b.hasAttribute('aria-label'))b.setAttribute('aria-label','Mostrar u ocultar contraseña')});</script>{% block extra_js %}{% endblock %}</body>
+</html>

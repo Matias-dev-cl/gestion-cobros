@@ -1,9 +1,10 @@
 {% extends "reportes/base_reportes.html" %}
+{% load moneda %}
 
 {% block title %}Reportes y contabilidad · Gestión APR{% endblock %}
 
 {% block extra_head %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -26,7 +27,7 @@
         Ingresos del mes (pagados)
       </div>
       <div class="stat-value text-lg text-success">
-        ${{ ingresos_mes|floatformat:0 }}
+        {{ ingresos_mes|formato_moneda }}
       </div>
       <div class="stat-desc text-xs">
         Solo boletas efectivamente pagadas.
@@ -39,7 +40,7 @@
         Deuda total (no pagado)
       </div>
       <div class="stat-value text-lg text-error">
-        ${{ deuda_total|floatformat:0 }}
+        {{ deuda_total|formato_moneda }}
       </div>
       <div class="stat-desc text-xs">
         Boletas pendientes acumuladas.
@@ -134,7 +135,7 @@
             <tr>
               <td>{{ boleta.fecha_emision|date:"d/m/Y" }}</td>
               <td>{{ boleta.usuario.nombre }}</td>
-              <td>${{ boleta.total_a_pagar|floatformat:0 }}</td>
+              <td>{{ boleta.total_a_pagar|formato_moneda }}</td>
               <td>
                 {% if boleta.pagado %}
                   <span class="badge badge-success badge-sm">Pagada</span>

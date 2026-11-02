@@ -23,11 +23,11 @@
         }
 
         /* OCULTAR ELEMENTOS DE NAVEGACIÓN / BOTONES / TOOLBAR */
-        .drawer-side, 
-        header, 
-        footer, 
-        .btn, 
-        .no-print, 
+        .drawer-side,
+        header,
+        footer,
+        .btn,
+        .no-print,
         .navbar,
         .mb-6 {
             display: none !important;
@@ -77,7 +77,7 @@
             color: black !important;
         }
         .text-primary {
-            color: #0077cc !important;
+            color: #187d78 !important;
         }
         .bg-base-200 {
             background-color: #f3f4f6 !important;
@@ -116,7 +116,7 @@
 
     <!-- ÁREA DE IMPRESIÓN (La "Hoja de Papel") -->
     <div id="area-impresion" class="bg-base-100 p-8 md:p-12 rounded-xl shadow-xl border border-base-200 relative overflow-hidden text-base-content">
-        
+
         <!-- Marca de agua decorativa -->
         <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
             <i class="bi bi-droplet-fill text-9xl text-primary/10"></i>
@@ -235,13 +235,13 @@
 </div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const graficoConsumoData = {{ grafico_consumo_data|safe }};
         const ctx = document.getElementById('graficoConsumo').getContext('2d');
-        
-        const primaryColor = '#0077cc';
+
+        const primaryColor = '#187d78';
         const gridColor = '#e2e8f0';
 
         new Chart(ctx, {
@@ -250,7 +250,7 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                tension: 0.3, 
+                tension: 0.3,
                 plugins: {
                     legend: {
                         display: true,
@@ -269,7 +269,7 @@
                 },
                 elements: {
                     point: { radius: 4, backgroundColor: primaryColor },
-                    line: { borderColor: primaryColor, backgroundColor: 'rgba(0, 119, 204, 0.1)', fill: true }
+                    line: { borderColor: primaryColor, backgroundColor: 'rgba(24, 125, 120, 0.1)', fill: true }
                 }
             }
         });

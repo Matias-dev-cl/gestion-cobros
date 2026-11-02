@@ -1,6 +1,6 @@
 # Arquitectura y alcance
 
-FlowWeb es un monolito Django con páginas renderizadas en servidor. La interfaz administrativa nueva usa CSS local y no requiere un proceso de compilación ni servicios de gráficos externos. Los módulos heredados conservan sus interfaces originales.
+FlowWeb es un monolito Django con páginas renderizadas en servidor. Todas las páginas visibles utilizan `shared/base.html`, que centraliza la estructura pública o administrativa, la navegación según el rol y los recursos de interfaz. `workspace.css` define el panel y `interface.css` unifica tipografía, colores, tablas, formularios, estados y ventanas de confirmación. Se conservan las clases de Tailwind/DaisyUI de las plantillas funcionales; los recursos CDN y Chart.js se cargan en la base común sin duplicar scripts.
 
 ## Flujo funcional
 
@@ -30,7 +30,7 @@ Con DEBUG=True, ejecutar `python manage.py seed_demo`. Crea registros ficticios 
 
 ## Próximas etapas
 
-1. Extender el sistema visual a usuarios, lecturas y boletas, con formularios accesibles y errores contextualizados.
+1. Ampliar las pruebas de interacción de los formularios y de las ventanas de confirmación.
 2. Definir tarifas por tramos y periodos, impedir facturación duplicada y agregar pruebas de los límites de cálculo.
 3. Reemplazar la simulación pública de pagos por un flujo claramente demostrativo, sin pedir datos de tarjeta, antes de desplegar una demo pública.
 4. Revisar privacidad de la consulta pública, permisos de cada operación y actualizaciones de dependencias antes del despliegue.
