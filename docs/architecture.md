@@ -34,6 +34,6 @@ Con DEBUG=True, ejecutar `python manage.py seed_demo`. Crea registros ficticios 
 2. Definir tarifas por tramos y periodos, impedir facturación duplicada y agregar pruebas de los límites de cálculo.
 3. Reemplazar la simulación pública de pagos por un flujo claramente demostrativo, sin pedir datos de tarjeta, antes de desplegar una demo pública.
 4. Revisar privacidad de la consulta pública, permisos de cada operación y actualizaciones de dependencias antes del despliegue.
-5. Completar capturas, demostración reproducible y pruebas de extremo a extremo.
+5. Ampliar la demostración reproducible y agregar pruebas de extremo a extremo. Las capturas actuales están en `docs/screenshots/`.
 
 La aplicación es un portafolio en evolución, no una solución certificada para facturación ni lista para producción.
